@@ -30,7 +30,7 @@ const CONFIG = {
   //    Si vous avez une API backend avec votre bot Discord
   //    pour récupérer les membres, canaux, etc.
   // ---------------------------------------------------
-  API_BASE_URL: "https://discord-site-production.up.railway.app/", // URL de votre API backend
+  API_BASE_URL: "https://discord-site-production.up.railway.app/api/server", // URL de votre API backend
 
   // ---------------------------------------------------
   // 4. OPTIONS D'AFFICHAGE
