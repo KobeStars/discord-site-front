@@ -30,7 +30,7 @@ const CONFIG = {
   //    Si vous avez une API backend avec votre bot Discord
   //    pour récupérer les membres, canaux, etc.
   // ---------------------------------------------------
-  API_BASE_URL: "http://localhost:3000/api",
+  API_BASE_URL: "https://nexushubbyank.up.railway.app/api", // URL de votre API backend
 
   // ---------------------------------------------------
   // 4. OPTIONS D'AFFICHAGE
