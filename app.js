@@ -16,7 +16,7 @@ function initiateLogin() {
   const params = new URLSearchParams({
     client_id: cfg.CLIENT_ID,
     redirect_uri: cfg.REDIRECT_URI,
-    response_type: "token",          // Implicit flow (client-side)
+    response_type: "token", // Implicit flow (client-side)
     scope: cfg.SCOPES.join(" "),
     state,
   });
@@ -65,7 +65,8 @@ async function fetchUserGuilds(token) {
 
 const MOCK_SERVER = {
   name: "NexusHub Community",
-  description: "Le serveur Discord de la communauté NexusHub. Un espace pour discuter, partager et créer ensemble.",
+  description:
+    "Le serveur Discord de la communauté NexusHub. Un espace pour discuter, partager et créer ensemble.",
   icon: null,
   member_count: 1247,
   approximate_presence_count: 84,
@@ -73,14 +74,70 @@ const MOCK_SERVER = {
 };
 
 const MOCK_MEMBERS = [
-  { id: "1", username: "Aurelius", discriminator: "0", status: "online", avatar: null, topRole: "Admin" },
-  { id: "2", username: "Solène", discriminator: "0", status: "online", avatar: null, topRole: "Modérateur" },
-  { id: "3", username: "KaiZen", discriminator: "0", status: "idle", avatar: null, topRole: "Membre" },
-  { id: "4", username: "d4rkbird", discriminator: "0", status: "dnd", avatar: null, topRole: "Membre" },
-  { id: "5", username: "Mariette", discriminator: "0", status: "online", avatar: null, topRole: "Vétéran" },
-  { id: "6", username: "Spectral", discriminator: "0", status: "online", avatar: null, topRole: "Modérateur" },
-  { id: "7", username: "Yuna_dev", discriminator: "0", status: "idle", avatar: null, topRole: "Membre" },
-  { id: "8", username: "nv0id", discriminator: "0", status: "offline", avatar: null, topRole: "Membre" },
+  {
+    id: "1",
+    username: "Aurelius",
+    discriminator: "0",
+    status: "online",
+    avatar: null,
+    topRole: "Admin",
+  },
+  {
+    id: "2",
+    username: "Solène",
+    discriminator: "0",
+    status: "online",
+    avatar: null,
+    topRole: "Modérateur",
+  },
+  {
+    id: "3",
+    username: "KaiZen",
+    discriminator: "0",
+    status: "idle",
+    avatar: null,
+    topRole: "Membre",
+  },
+  {
+    id: "4",
+    username: "d4rkbird",
+    discriminator: "0",
+    status: "dnd",
+    avatar: null,
+    topRole: "Membre",
+  },
+  {
+    id: "5",
+    username: "Mariette",
+    discriminator: "0",
+    status: "online",
+    avatar: null,
+    topRole: "Vétéran",
+  },
+  {
+    id: "6",
+    username: "Spectral",
+    discriminator: "0",
+    status: "online",
+    avatar: null,
+    topRole: "Modérateur",
+  },
+  {
+    id: "7",
+    username: "Yuna_dev",
+    discriminator: "0",
+    status: "idle",
+    avatar: null,
+    topRole: "Membre",
+  },
+  {
+    id: "8",
+    username: "nv0id",
+    discriminator: "0",
+    status: "offline",
+    avatar: null,
+    topRole: "Membre",
+  },
 ];
 
 // ====================================================
@@ -114,7 +171,10 @@ function renderServerCard(data) {
 
   // Mise à jour des stats hero
   animateNumber("stat-members", data.member_count ?? data.members ?? 0);
-  animateNumber("stat-online", data.approximate_presence_count ?? data.online ?? 0);
+  animateNumber(
+    "stat-online",
+    data.approximate_presence_count ?? data.online ?? 0,
+  );
   animateNumber("stat-channels", data.channels ?? 0);
 }
 
@@ -126,13 +186,14 @@ function renderMembers(members) {
   const grid = document.getElementById("members-grid");
   const displayed = members.slice(0, window.DISCORD_CONFIG.MAX_MEMBERS_DISPLAY);
 
-  grid.innerHTML = displayed.map(m => {
-    const initial = m.username[0].toUpperCase();
-    const avatarHtml = m.avatar
-      ? `<img src="https://cdn.discordapp.com/avatars/${m.id}/${m.avatar}.png?size=64" alt="${m.username}">`
-      : `<div class="member-avatar-placeholder">${initial}</div>`;
+  grid.innerHTML = displayed
+    .map((m) => {
+      const initial = m.username[0].toUpperCase();
+      const avatarHtml = m.avatar
+        ? `<img src="https://cdn.discordapp.com/avatars/${m.id}/${m.avatar}.png?size=64" alt="${m.username}">`
+        : `<div class="member-avatar-placeholder">${initial}</div>`;
 
-    return `
+      return `
       <div class="member-card">
         <div class="member-avatar">
           ${avatarHtml}
@@ -142,7 +203,8 @@ function renderMembers(members) {
         ${m.topRole ? `<span class="member-role">${m.topRole}</span>` : ""}
       </div>
     `;
-  }).join("");
+    })
+    .join("");
 }
 
 // ====================================================
@@ -292,8 +354,10 @@ async function init() {
     // Production : appel à votre backend/bot
     try {
       const [serverData, membersData] = await Promise.all([
-        fetch(`${cfg.API_BASE_URL}/server`).then(r => r.json()),
-        fetch(`${cfg.API_BASE_URL}/members`).then(r => r.json()),
+        fetch(`${cfg.API_BASE_URL}/server`).then((r) => r.json()),
+        fetch(`${cfg.API_BASE_URL}/members`)
+          .then((r) => r.json())
+          .then((d) => (Array.isArray(d) ? d : Object.values(d))),
       ]);
       renderServerCard(serverData);
       renderMembers(membersData);
