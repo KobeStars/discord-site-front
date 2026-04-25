@@ -353,24 +353,23 @@ async function init() {
   } else {
     // Production : appel à votre backend/bot
     try {
-      const [serverData, membersData] = await Promise.all([
-        fetch(`${cfg.API_BASE_URL}/server`).then((r) => r.json()),
-        fetch(`${cfg.API_BASE_URL}/members`)
-          .then((r) => r.json())
-          .then((d) => (Array.isArray(d) ? d : Object.values(d))),
-      ]);
+      const serverData = await fetch(`${cfg.API_BASE_URL}/server`).then((r) =>
+        r.json(),
+      );
       renderServerCard(serverData);
+    } catch (err) {
+      console.error("Erreur /api/server :", err);
+    }
+
+    try {
+      const membersData = await fetch(`${cfg.API_BASE_URL}/members`)
+        .then((r) => r.json())
+        .then((d) => (Array.isArray(d) ? d : Object.values(d)));
       renderMembers(membersData);
     } catch (err) {
-      console.error("Erreur API backend :", err);
-      document.getElementById("server-card").innerHTML = `
-        <div class="server-loading">
-          <span>⚠️ Impossible de charger les données du serveur. Vérifiez votre backend.</span>
-        </div>
-      `;
+      console.error("Erreur /api/members :", err);
     }
   }
 }
 
-// Démarrage
-document.addEventListener("DOMContentLoaded", init);
+window.onload = init;
