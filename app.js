@@ -188,7 +188,7 @@ function renderMembers(members) {
 
   grid.innerHTML = displayed
     .map((m) => {
-      const initial = m.username[0].toUpperCase();
+      const initial = (m.username || "?")[0].toUpperCase();
       const avatarHtml = m.avatar
         ? `<img src="https://cdn.discordapp.com/avatars/${m.id}/${m.avatar}.png?size=64" alt="${m.username}">`
         : `<div class="member-avatar-placeholder">${initial}</div>`;
